@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!--flow.chart.js - licensed under the MIT license. - Copyright (c) Bruno Roberto Burigo (brunorb8@hotmail.com) - https://github.com/BrunoRB/flow-chart.js - 2016-11-08-->
+		<title>flow-chart.js</title>
+
+	
+		<link rel="stylesheet" type="text/css" href="../bower_components/components-font-awesome/css/font-awesome.min.css">
+		<link rel="stylesheet" type="text/css" type="text/css" href="css/flow-chart.min.css">
+	
+	</head>
+	<body id="body" class="body">
+		
+
+		<section id="left-area">
+
+			<section id="shape-menu" class="flow shape menu">
+				<div
+					class="flow shape begin"
+					title="begin"
+					tabindex="-1"
+					data-flow-shape-type="begin"
+					data-flow-has-user-text="false"
+					data-flow-max-outputs="1"
+					data-flow-max-inputs="0"
+					data-flow-max-copies="1"
+					data-flow-connection-type="text"
+				>
+
+					<span class="connector one"></span> <span class="connector two"></span>
+					<span class="connector three"></span> <span class="connector four"></span>
+					<span class="resize anchor top left fa fa-angle-double-up"></span>
+					<span class="resize anchor top right fa fa-angle-double-up"></span>
+					<span class="resize anchor bottom left fa fa-angle-double-down"></span>
+					<span class="resize anchor bottom right fa fa-angle-double-down"></span>
+					<span class="shape image"></span>
+					<code></code>
+					<div class="message">Start</div>
+				</div>
+
+				<div
+					class="flow shape end"
+					title="end"
+					tabindex="-1"
+					data-flow-shape-type="end"
+					data-flow-has-user-text="false"
+					data-flow-max-outputs="0"
+					data-flow-max-inputs="1"
+					data-flow-max-copies="1"
+					data-flow-connection-type="text"
+				>
+					<span class="connector one"></span> <span class="connector two"></span>
+					<span class="connector three"></span> <span class="connector four"></span>
+					<span class="resize anchor top left fa fa-angle-double-up"></span>
+					<span class="resize anchor top right fa fa-angle-double-up"></span>
+					<span class="resize anchor bottom left fa fa-angle-double-down"></span>
+					<span class="resize anchor bottom right fa fa-angle-double-down"></span>
+					<span class="shape image"></span>
+					<code></code>
+					<div class="message">End</div>
+				</div>
+
+				<div
+					class="flow shape process"
+					title="process"
+					tabindex="-1"
+					data-flow-shape-type="process"
+					data-flow-has-user-text="true"
+					data-flow-max-outputs="1"
+					data-flow-max-inputs="2"
+					data-flow-max-copies="-1"
+					data-flow-connection-type="text"
+				>
+					<span class="connector one"></span> <span class="connector two"></span>
+					<span class="connector three"></span> <span class="connector four"></span>
+					<span class="resize anchor top left fa fa-angle-double-up"></span>
+					<span class="resize anchor top right fa fa-angle-double-up"></span>
+					<span class="resize anchor bottom left fa fa-angle-double-down"></span>
+					<span class="resize anchor bottom right fa fa-angle-double-down"></span>
+					<span class="shape image"></span>
+					<code></code>
+					<div class="message">Processing</div>
+				</div>
+
+				<div
+					class="flow shape manual_input"
+					title="manual_input"
+					tabindex="-1"
+					data-flow-shape-type="manual_input"
+					data-flow-has-user-text="true"
+					data-flow-max-outputs="1"
+					data-flow-max-inputs="2"
+					data-flow-max-copies="-1"
+					data-flow-connection-type="text"
+				>
+					<span class="connector one"></span> <span class="connector two"></span>
+					<span class="connector three"></span> <span class="connector four"></span>
+					<span class="resize anchor top left fa fa-angle-double-up"></span>
+					<span class="resize anchor top right fa fa-angle-double-up"></span>
+					<span class="resize anchor bottom left fa fa-angle-double-down"></span>
+					<span class="resize anchor bottom right fa fa-angle-double-down"></span>
+					<span class="shape image"></span>
+					<code></code>
+					<div class="message">Input</div>
+				</div>
+
+				<div
+					class="flow shape display"
+					title="display"
+					tabindex="-1"
+					data-flow-shape-type="display"
+					data-flow-has-user-text="true"
+					data-flow-max-outputs="1"
+					data-flow-max-inputs="2"
+					data-flow-max-copies="-1"
+					data-flow-connection-type="text"
+				>
+					<span class="connector one"></span> <span class="connector two"></span>
+					<span class="connector three"></span> <span class="connector four"></span>
+					<span class="resize anchor top left fa fa-angle-double-up"></span>
+					<span class="resize anchor top right fa fa-angle-double-up"></span>
+					<span class="resize anchor bottom left fa fa-angle-double-down"></span>
+					<span class="resize anchor bottom right fa fa-angle-double-down"></span>
+					<span class="shape image"></span>
+					<code></code>
+					<div class="message">Output</div>
+				</div>
+
+				<div
+					class="flow shape decision"
+					title="decision"
+					tabindex="-1"
+					data-flow-shape-type="decision"
+					data-flow-has-user-text="true"
+					data-flow-max-outputs="2"
+					data-flow-max-inputs="2"
+					data-flow-max-copies="-1"
+					data-flow-connection-type="boolean"
+				>
+					<span class="connector one"></span> <span class="connector two"></span>
+					<span class="connector three"></span> <span class="connector four"></span>
+					<span class="resize anchor top left fa fa-angle-double-up"></span>
+					<span class="resize anchor top right fa fa-angle-double-up"></span>
+					<span class="resize anchor bottom left fa fa-angle-double-down"></span>
+					<span class="resize anchor bottom right fa fa-angle-double-down"></span>
+					<span class="shape image"></span>
+					<code></code>
+					<div class="message">Decision</div>
+				</div>
+
+				<!--<div-->
+					<!--class="flow shape connector"-->
+					<!--title="connector"-->
+					<!--tabindex="-1"-->
+					<!--data-flow-shape-type="connector"-->
+					<!--data-flow-has-user-text="false"-->
+					<!--data-flow-max-outputs="1"-->
+					<!--data-flow-max-inputs="2"-->
+					<!--data-flow-max-copies="-1"-->
+					<!--data-flow-connection-type="text"-->
+				<!--&gt;-->
+					<!--<span class="connector one"></span> <span class="connector two"></span>-->
+					<!--<span class="connector three"></span> <span class="connector four"></span>-->
+					<!--<span class="resize anchor top left fa fa-angle-double-up"></span>-->
+					<!--<span class="resize anchor top right fa fa-angle-double-up"></span>-->
+					<!--<span class="resize anchor bottom left fa fa-angle-double-down"></span>-->
+					<!--<span class="resize anchor bottom right fa fa-angle-double-down"></span>-->
+					<!--<span class="shape image"></span>-->
+					<!--<code></code>-->
+				<!--</div>-->
+
+			</section>
+
+			<section id="toolbar-container" class="flow toolbar menu">
+				<a id="create-new-flowchart" href="#" class="button fa fa-plus"> New</a>
+
+				<div class="flow toolbar list container">
+					<div class="flow toolbar list container2">
+
+						<i class="fa fa-folder-open-o">Open</i>
+						<ul class="flow toolbar list open diagram">
+							<li>
+								<a href="json-file">From file</a>
+								<input id="temp-upload" type="file" />
+							</li>
+							<li><a href="local-storage">From browser</a></li>
+							<li><a href="examples">Examples</a></li>
+						</ul>
+						<i class="fa fa-save">Save</i>
+						<ul class="flow toolbar list save diagram">
+							<li><a href="json-file">On file</a></li>
+							<li><a href="local-storage">On browser</a></li>
+						</ul>
+					</div>
+				</div>
+			</section>
+			<section id="search-area">
+			</section>
+		</section>
+		<section id="right-area" class="flow diagram container">
+			<div id="alert-messages" data-flow-message-type="info"></div>
+			<div class="flow tab menu">
+				<ul class="flow tab list"></ul>
+			</div>
+			<div id="console-area">
+				<div class="console toggle button">
+					<i class="fa fa-list fa-2x"></i>
+				</div>
+				<section class="console execution buttons">
+					<!-- <button style="background-color:#824c33;font-size: 15px;width: 200px;" id="show_code_button">Show code </button> -->
+					<button class="button execute fa fa-play" disabled="disabled">Execute</button> <br>
+					<button class="button start debug fa fa-play-circle" disabled="disabled" style="display:none">Debug</button>
+					<button class="button debug next fa fa-step-forward" disabled="disabled" style="display:none"></button>
+					<button class="button debug stop fa fa-stop" disabled="disabled" style="display:none"></button>
+
+				</section>
+				<section class="console exhibition">
+					<span class="terminal">
+						 <i class="fa fa-terminal"></i> :
+					</span>
+					<span class="clean console" title="Clean console">
+						<i class="fa fa-refresh"></i>
+                    </span>
+					<div class="content"></div>
+				</section>
+
+				<section class="code_area">
+					<pre id="editor2" class="editor2"></pre>
+
+					<div class="scrollmargin"></div>
+					</span>
+				</section>
+
+
+
+			</div>
+
+		</section>
+		<script src="./src1/ace.js"></script>
+		<script src=".demo/show_own_source.js"></script>
+	<script src="../bower_components/jsPlumb/dist/js/dom.jsPlumb-1.7.2-min.js"></script>
+	<script src="js/flow-chart.js"></script>
+
+	</body>
+</html>
