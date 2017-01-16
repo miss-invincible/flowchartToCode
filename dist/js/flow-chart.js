@@ -433,7 +433,7 @@ var flow = (function(flow, jsPlumb) {
 
 		jsPlumbDefaults.Anchor = 'Continuous';
 
-		jsPlumbDefaults.Connector = 'Bezier';
+		jsPlumbDefaults.Connector = 'Flowchart';
 		//jsPlumbDefaults.Connector = 'StateMachine';
 		//jsPlumbDefaults.Connector = 'Flowchart';
 		//jsPlumbDefaults.Connector = 'Straight';
@@ -1017,9 +1017,33 @@ var flow = (function(flow, doc, jsPlumb) {
 	StaticListeners._shapeClick = function() {
 		Util.on(Cache.diagramContainer, 'click', '.diagram.active div.shape', function(event) {
 			// the drag event is triggering with a click, but this can change flow.Selection.addSelectedShape(this);
+
 		});
+
 	};
 
+	// StaticListeners._shapeRightClick = function() {
+	// 	Util.on(Cache.diagramContainer, 'contextmenu','.diagram.active div.shape', function(event) {
+	// 				// jsPlumb.detachAllConnections(event.target);
+	// 				// jsPlumb.removeAllEndpoints(event.target);
+	// 				// jsPlumb.
+	// 				// jsPlumb.detach(event.target);
+	// 		// _revertShapeCreation(event.target);
+    //
+	// 		if (event.target.classList.contains('selected')) { // if this shape is selected right now
+	// 			flow.Selection.unselectShapes(); // then unselect before delete
+	// 		}
+	// 		jsPlumb.detachAllConnections(event.target);
+	// 		flow.Util.remove(event.target);
+	// 				// event.target.remove();
+	// 		// the drag event is triggering with a click, but this can change flow.Selection.addSelectedShape(this);
+	// 	});
+	// 	Util.on(Cache.diagramContainer,'contextmenu','flow.Const.SHAPE_TYPE.CONNECTOR',function(event)
+	// 	{
+	// 		flow.Util.remove(event.target);
+	// 	});
+    //
+	// };
 	StaticListeners._shapeDoubleClicked = function() {
 		Util.on(Cache.diagramContainer, 'dblclick', '.active.diagram div.shape', function(event) {
             if (this.getAttribute('data-flow-has-user-text') === 'true') {
@@ -1039,6 +1063,7 @@ var flow = (function(flow, doc, jsPlumb) {
 			var data = code.join(" ");
 			 console.log(data);
 			code=[];
+			indent=0;
 			// console.log("hello");
 			//console.log(sweet);
 		});
