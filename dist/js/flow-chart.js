@@ -90,7 +90,7 @@ var flow = (function(flow, doc, jsPlumbUtil) {
 		mottle.remove(element);
 		return this;
 	};
-
+	//TODO: functionality not clear
 	Util.isFunction = function(element) {
 		return jsPlumbUtil.isFunction(element);
 	};
@@ -99,9 +99,9 @@ var flow = (function(flow, doc, jsPlumbUtil) {
      * Call all functions of a given object (just parameter-less funcs)
      */
     Util.invokeAllFunctions = function(obj) {
-        Object.getOwnPropertyNames(obj).forEach(function(propertieName) {
-            if (typeof obj[propertieName] === "function") {
-                obj[propertieName]();
+        Object.getOwnPropertyNames(obj).forEach(function(propertyName) {
+            if (typeof obj[propertyName] === "function") {
+                obj[propertyName]();
             }
         });
     };
@@ -512,7 +512,7 @@ var flow = (function(flow, doc, jsPlumb) {
 			};
 		}
 		//\\
-
+		//TODO : understnd this
 		shapeText = shapeCodeDOM !== null ? shapeCodeDOM.textContent : shapeDOM.querySelector('input').value;
 
 		return {
@@ -992,7 +992,7 @@ var flow = (function(flow, doc, jsPlumb) {
 			}
         });
     };
-
+//TODO:find what it wants to delete
 	StaticListeners._activeFlowchartKeyUp = function() {
         var that = this;
         Util.on(Cache.diagramContainer, 'keyup', '.diagram.active', function(event) {
@@ -1013,7 +1013,7 @@ var flow = (function(flow, doc, jsPlumb) {
 
         });
     };
-
+// TODO: identify its working
 	StaticListeners._shapeClick = function() {
 		Util.on(Cache.diagramContainer, 'click', '.diagram.active div.shape', function(event) {
 			// the drag event is triggering with a click, but this can change flow.Selection.addSelectedShape(this);
@@ -1022,28 +1022,32 @@ var flow = (function(flow, doc, jsPlumb) {
 
 	};
 
-	// StaticListeners._shapeRightClick = function() {
-	// 	Util.on(Cache.diagramContainer, 'contextmenu','.diagram.active div.shape', function(event) {
-	// 				// jsPlumb.detachAllConnections(event.target);
-	// 				// jsPlumb.removeAllEndpoints(event.target);
-	// 				// jsPlumb.
-	// 				// jsPlumb.detach(event.target);
-	// 		// _revertShapeCreation(event.target);
-    //
-	// 		if (event.target.classList.contains('selected')) { // if this shape is selected right now
-	// 			flow.Selection.unselectShapes(); // then unselect before delete
-	// 		}
-	// 		jsPlumb.detachAllConnections(event.target);
-	// 		flow.Util.remove(event.target);
-	// 				// event.target.remove();
-	// 		// the drag event is triggering with a click, but this can change flow.Selection.addSelectedShape(this);
-	// 	});
-	// 	Util.on(Cache.diagramContainer,'contextmenu','flow.Const.SHAPE_TYPE.CONNECTOR',function(event)
-	// 	{
-	// 		flow.Util.remove(event.target);
-	// 	});
-    //
-	// };
+	StaticListeners._shapeRightClick = function() {
+		Util.on(Cache.diagramContainer, 'contextmenu','.diagram.active div.shape', function(event) {
+					// jsPlumb.detachAllConnections(event.target);
+					// jsPlumb.removeAllEndpoints(event.target);
+					// jsPlumb.
+					// jsPlumb.detach(event.target);
+			// _revertShapeCreation(event.target);
+			console.log("no man");
+			flow._selectedElement=event.target;
+			flow.selection.deleteSelectedItems();
+
+
+			// if (event.target.classList.contains('selected')) { // if this shape is selected right now
+			// 	flow.Selection.unselectShapes(); // then unselect before delete
+			// }
+			// jsPlumb.detachAllConnections(event.target);
+			// flow.Util.remove(event.target);
+					// event.target.remove();
+			// the drag event is triggering with a click, but this can change flow.Selection.addSelectedShape(this);
+		});
+		Util.on(Cache.diagramContainer,'contextmenu','flow.Const.SHAPE_TYPE.CONNECTOR',function(event)
+		{
+			flow.Util.remove(event.target);
+		});
+
+	};
 	StaticListeners._shapeDoubleClicked = function() {
 		Util.on(Cache.diagramContainer, 'dblclick', '.active.diagram div.shape', function(event) {
             if (this.getAttribute('data-flow-has-user-text') === 'true') {
@@ -1114,6 +1118,7 @@ var flow = (function(flow, doc, jsPlumb) {
                 flow.Alerts.showWarningMessage('Recursive connections aren\'t allowed');
                 return false;
             }
+				//todo identify its meaning
             else if (reverseConn.length > 0 && targetType !== flow.Const.SHAPE_TYPE.DECISION) {
                 flow.Alerts.showWarningMessage('Elements already connected');
                 return false;
@@ -1272,19 +1277,28 @@ flow.ExecutionHandler = {
 
 	generateCode: function() {
 		var visiteds = {};
+		var stop_tru_id=null;
 
-
-		var _traverse = function(shape) {
+		var _traverse = function(shape, jane_do,stop_true_id) {
+			if(jane_do === undefined)
+				jane_do=false;
+			if(stop_true_id===undefined)
+				stop_true_id=false;
 			var id = shape.id;
 			var shapeType = shape.getAttribute('data-flow-shape-type');
-
-			if (!(id in visiteds)) {
+			if(stop_true_id==id)
+			{
+				jane_do=false;
+			}
+			if (!(id in visiteds)||jane_do) {
 				visiteds[id] = true;
+				console.log("8888");
 				var connections = jsPlumb.getConnections({source: shape}),
 					reverseConnections = jsPlumb.getConnections({target: shape});
-
+					console.log(reverseConnections);
 				var hasCycle = reverseConnections.length > 1 ? true : false;
-
+					console.log(hasCycle);
+				console.log("8888");
 				if (hasCycle && shapeType !== flow.Const.SHAPE_TYPE.DECISION
 					&& shapeType !== flow.Const.SHAPE_TYPE.CONNECTOR
 				) {
@@ -1305,7 +1319,7 @@ flow.ExecutionHandler = {
 						// }
 						// code.push('(function() {');
 						// indent=indent+1;
-						_traverse(connections[0].target);
+						_traverse(connections[0].target,jane_do,stop_true_id);
 						break;
 
 					case flow.Const.SHAPE_TYPE.END:
@@ -1333,7 +1347,7 @@ flow.ExecutionHandler = {
 							code.push("	");
 						}
 						code.push(content);
-						_traverse(connections[0].target);
+						_traverse(connections[0].target,jane_do,stop_true_id);
 						break;
 
 					case flow.Const.SHAPE_TYPE.DISPLAY:
@@ -1344,7 +1358,7 @@ flow.ExecutionHandler = {
 							code.push("	");
 						}
 						code.push(content);
-						_traverse(connections[0].target);
+						_traverse(connections[0].target,jane_do,stop_true_id);
 						break;
 
 					case flow.Const.SHAPE_TYPE.MANUAL_INPUT:
@@ -1357,7 +1371,7 @@ flow.ExecutionHandler = {
 							code.push("	");
 						}
 						code.push(content);
-						_traverse(connections[0].target);
+						_traverse(connections[0].target,jane_do,stop_true_id);
 						break;
 
 					case flow.Const.SHAPE_TYPE.DECISION:
@@ -1374,8 +1388,22 @@ flow.ExecutionHandler = {
 
 						var idTargetOne = connections[0].target.id,
 							idTargetTwo = connections[1].target.id;
+
 						// if it's pointing to a previously visited node, then it's a DO WHILE
 						if (idTargetOne in visiteds || idTargetTwo in visiteds) {
+							// code.push("\n");
+							// for(var i=0;i<indent;i++)
+							// {
+							// 	code.push("	");
+							// }
+							// code.push('while ');
+							// code.push(_getTextContent(shape));
+							// code.push(' :');
+							// indent=indent+1;
+							// traverse the non-visited node
+
+							// _traverse((idTargetOne in visiteds ? connections[1].target : connections[0].target));
+							// _traverse((idTargetOne in visiteds ? connections[0].target : connections[1].target));
 							code.push("\n");
 							for(var i=0;i<indent;i++)
 							{
@@ -1383,12 +1411,43 @@ flow.ExecutionHandler = {
 							}
 							code.push('while ');
 							code.push(_getTextContent(shape));
-							code.push(' :');
 							indent=indent+1;
-							// traverse the non-visited node
-							_traverse((idTargetOne in visiteds ? connections[1].target : connections[0].target))
+							code.push(' :');
+							jane_do=true;
+							//pta lagao true branch already visited h ya false: jo h usme jane_do = true n send stop_true_id
+							// TODO find correct branch
+							if(trueBranch.id in visiteds)
+							{
+								jane_do=true;
+							}
+							else {
+								jane_do=false;
+							}
+							var temp_id = id;
+							_traverse(trueBranch,jane_do,temp_id);
+							// code.push("\n");
+							// for(var i=0;i<indent;i++)
+							// {
+							// 	code.push("	");
+							// }
+							// code.push('}');
+							indent=indent-1;
+							//this will never happen
+							// if(falseBranch.id in visiteds)
+							// {
+							// 	jane_do=true;
+							// }
+							// else {
+							// 	jane_do=false;
+							// }
+							// jane_do=false;
+
+							_traverse(falseBranch,jane_do,stop_true_id);
+							jane_do=false;
+
 						}
-						else if (hasCycle) { // has two nodes pointing at it, so must be a WHILE loop
+						else
+						if (hasCycle) { // has two nodes pointing at it, so must be a WHILE loop
 							code.push("\n");
 							for(var i=0;i<indent;i++)
 							{
@@ -1400,7 +1459,7 @@ flow.ExecutionHandler = {
 							code.push(' :');
 
 							// TODO find correct branch
-							_traverse(trueBranch);
+							_traverse(trueBranch,jane_do,stop_true_id);
 							// code.push("\n");
 							// for(var i=0;i<indent;i++)
 							// {
@@ -1408,7 +1467,7 @@ flow.ExecutionHandler = {
 							// }
 							// code.push('}');
 							indent=indent-1;
-							_traverse(falseBranch);
+							_traverse(falseBranch,jane_do,stop_true_id);
 						}
 						else { // a ordinary IF
 							code.push("\n");
@@ -1420,7 +1479,7 @@ flow.ExecutionHandler = {
 							code.push(_getTextContent(shape));
 							code.push(' :');
 							indent=indent+1;
-							_traverse(trueBranch);
+							_traverse(trueBranch,jane_do,stop_true_id);
 							// code.push('}');
 							code.push("\n");
 							for(var i=0;i<indent;i++)
@@ -1429,7 +1488,7 @@ flow.ExecutionHandler = {
 							}
 							code.push('else :');
 							indent=indent+1;
-							_traverse(falseBranch);
+							_traverse(falseBranch,jane_do,stop_true_id);
 							// closing tag at "else if == connector" below
 						}
 
@@ -1445,7 +1504,7 @@ flow.ExecutionHandler = {
 				var connections = jsPlumb.getConnections({source: shape});
 				// code.push('}');
 				indent=indent-1;
-				_traverse(connections[0].target);
+				_traverse(connections[0].target,jane_do);
 
 			}
 
@@ -1456,7 +1515,7 @@ flow.ExecutionHandler = {
 			return shape.querySelector('code').textContent;
 		};
 
-		_traverse(this.getBeginShape());
+		_traverse(this.getBeginShape(),null);
 
 		var result = code.join(' ');
 	},
@@ -1476,6 +1535,7 @@ flow.ExecutionHandler = {
 		var beginShape = this.getBeginShape();
 		if (beginShape !== null) {
 			this.currentNode = flow.Nodes.factory(beginShape);
+			//use of this line
 			this.nextNodeDOM = this.currentNode.execute();
 			this.executeAll();
 		}
@@ -2072,6 +2132,10 @@ var flow = (function(flow, jsPlumb) {
 
 			try {
 				eval(this.getParsedContent());
+				console.log("-->");
+				var x=(eval(this.getParsedContent));
+				console.log(x);
+				console.log("<--");
 				sweet=sweet.concat(this.getContent());
 				sweet=sweet.concat("\n");
 				console.log(this.getContent());
