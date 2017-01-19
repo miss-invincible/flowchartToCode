@@ -447,7 +447,7 @@ var flow = (function(flow, jsPlumb) {
 				]
 			},
 			strokeStyle: 'brown',
-			lineWidth: 2
+			lineWidth: 4
 		};
 
 		jsPlumb.Defaults.ConnectionOverlays = [
@@ -463,6 +463,7 @@ var flow = (function(flow, jsPlumb) {
 
 		if (localStorage.getItem('flow') === null) {
 			localStorage.setItem('flow', examples);
+
 		}
 
 		flow.examples = examples;
@@ -1017,6 +1018,8 @@ var flow = (function(flow, doc, jsPlumb) {
 	StaticListeners._shapeClick = function() {
 		Util.on(Cache.diagramContainer, 'click', '.diagram.active div.shape', function(event) {
 			// the drag event is triggering with a click, but this can change flow.Selection.addSelectedShape(this);
+			console.log("gyg");
+			console.log(event.target);
 
 		});
 
@@ -1024,15 +1027,48 @@ var flow = (function(flow, doc, jsPlumb) {
 
 	StaticListeners._shapeRightClick = function() {
 		Util.on(Cache.diagramContainer, 'contextmenu','.diagram.active div.shape', function(event) {
-					// jsPlumb.detachAllConnections(event.target);
-					// jsPlumb.removeAllEndpoints(event.target);
-					// jsPlumb.
-					// jsPlumb.detach(event.target);
-			// _revertShapeCreation(event.target);
-			console.log("no man");
-			flow._selectedElement=event.target;
-			flow.selection.deleteSelectedItems();
+			// jsPlumb.detachAllCo	nnections(event.target);
+			// jsPlumb.removeAllEndpoints(event.target);
+			// jsPlumb.detach(event.target); // <--
+			// event.target.remove()
+			 //flow._revertShapeCreation(event.target);
+			// flow._revertShapeCreation(event.target);
+			// console.log("no man");
+			// flow._selectedElement=event.target;
+			// flow.selection.deleteSelectedItems();
+			//todo conn = jsPlumb.getConnections({source: source, target: target}); // conns provenient from source
+			// var shape = event.target;
+			console.log("haha");
+			// console.log(shape);
+			// console.log(shape.getAttribute("id"));
+			console.log(this.getAttribute("id"));
+			var id = this.getAttribute("id");
+			console.log(jsPlumb.getConnections({source: id}));
+			var targets = jsPlumb.getConnections({source: id});
+			var sources = jsPlumb.getConnections({target: id});
 
+			if(targets!==null)
+			{
+				for(var i=0;i<targets.length;i++)
+				{
+					funn(targets[i]);
+				}
+			}
+			if(sources!==null)
+			{
+				for(var i=0;i<sources;i++)
+				{
+					funn(sources[i]);
+				}
+			}
+			if (this.classList.contains('selected')) { // if this shape is selected right now
+				flow.Selection.unselectShapes(); // then unselect before delete
+			}
+			jsPlumb.removeAllEndpoints(this);
+			jsPlumb.detachAllConnections(this);
+			jsPlumb.detach(this);
+			flow.Util.remove(this);
+			//TODO : use jsplumb.remove(sourceid) etc
 
 			// if (event.target.classList.contains('selected')) { // if this shape is selected right now
 			// 	flow.Selection.unselectShapes(); // then unselect before delete
@@ -1042,12 +1078,35 @@ var flow = (function(flow, doc, jsPlumb) {
 					// event.target.remove();
 			// the drag event is triggering with a click, but this can change flow.Selection.addSelectedShape(this);
 		});
-		Util.on(Cache.diagramContainer,'contextmenu','flow.Const.SHAPE_TYPE.CONNECTOR',function(event)
-		{
-			flow.Util.remove(event.target);
-		});
+
 
 	};
+
+
+
+	var funn = function (connection) {
+		// var connectionType = connection.source.getAttribute('data-flow-connection-type');
+		var shape = event.target;
+		console.log("yeah");
+		console.log(connection.source.id);
+		console.log(connection.source);
+		console.log(connection.target);
+		// var rr=jsPlumb.getConnections();
+		// for(var i=0;i<rr.length();i++)
+		// {
+		// 	console.log(connection[i].source);
+		// 	console.log(connection[i].target);
+		// }
+		// console.log(jsPlumb.getConnections());
+
+		if (shape.classList.contains('selected')) { // if this shape is selected right now
+			flow.Selection.unselectShapes(); // then unselect before delete
+		}
+		// jsPlumb.removeAllEndpoints(connection);
+		// jsPlumb.detachAllConnections(connection);
+		jsPlumb.detach(connection);
+		flow.Util.remove(shape);
+	}
 	StaticListeners._shapeDoubleClicked = function() {
 		Util.on(Cache.diagramContainer, 'dblclick', '.active.diagram div.shape', function(event) {
             if (this.getAttribute('data-flow-has-user-text') === 'true') {
@@ -1162,6 +1221,33 @@ var flow = (function(flow, doc, jsPlumb) {
             }
         });
     })();
+
+	(function _connectionRightClick() {
+		jsPlumb.bind('contextmenu', function(connection) {
+			// var connectionType = connection.source.getAttribute('data-flow-connection-type');
+			var shape = event.target;
+			console.log("yeah");
+			console.log(connection.source.id);
+			console.log(connection.source);
+			console.log(connection.target);
+			// var rr=jsPlumb.getConnections();
+			// for(var i=0;i<rr.length();i++)
+			// {
+			// 	console.log(connection[i].source);
+			// 	console.log(connection[i].target);
+			// }
+			// console.log(jsPlumb.getConnections());
+
+			if (shape.classList.contains('selected')) { // if this shape is selected right now
+				flow.Selection.unselectShapes(); // then unselect before delete
+			}
+			 // jsPlumb.removeAllEndpoints(connection);
+			// jsPlumb.detachAllConnections(connection);
+			 jsPlumb.detach(connection);
+			flow.Util.remove(shape);
+			this.parentElement.removeChild(this);
+		});
+	})();
 
 	return flow;
 })(flow || {}, document, jsPlumb);
